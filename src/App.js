@@ -24,7 +24,8 @@ class App extends Component {
 	handleChange(event) {
 		this.setState({
 			name: event.target.value
-		})
+		});
+		console.log('object input', event.target.value)
 	}
 
 
@@ -34,7 +35,7 @@ class App extends Component {
 			let object = []
 			object.name = this.state.name;
 
-			console.log(object)
+			console.log('name:', object)
 
 			this.setState({
 				formValid: true,
@@ -58,15 +59,16 @@ class App extends Component {
 		return (
 
 			<div className='App'>
-				<Navigation modal={this.state.modal}
-					isOpen={this.state.isOpen}
-					handleSubmit={this.handleSubmit.bind(this)}
-					handleChange={this.handleChange.bind(this)}
-					toggle={this.toggle.bind(this)}
-					toggleModal={this.toggleModal.bind(this)}/>
-				<DataTable formData={this.state.formData}/>
+			<Navigation modal={this.state.modal}
+			isOpen={this.state.isOpen}
+			handleSubmit={this.handleSubmit.bind(this)}
+			handleChange={this.handleChange.bind(this)}
+			toggle={this.toggle.bind(this)}
+			toggleModal={this.toggleModal.bind(this)}/>
+			<DataTable formData={this.state.name}
+			formValid={this.state.formValid}/>
 			</div>
-		);
+			);
 	}
 }
 
