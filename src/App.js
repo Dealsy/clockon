@@ -3,6 +3,7 @@ import './App.css'
 import DataTable from './components/dataTable/dataTable'
 import Navigation from './components/Navigation/Navigation'
 
+
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -13,12 +14,12 @@ class App extends Component {
 			name: '',
 			date: '',
 			formValid: false,
-			formData: []
+			fields: {}
 		};
 		this.toggle = this.toggle.bind(this);
 		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
 		this.toggle = this.toggleModal.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
 	}
 
 	handleChange(event) {
@@ -29,20 +30,6 @@ class App extends Component {
 	}
 
 
-	handleSubmit(event) {
-		event.preventDefault();
-		if (this.state.name) {
-			let object = []
-			object.name = this.state.name;
-
-			console.log('name:', object)
-
-			this.setState({
-				formValid: true,
-				formData: object
-			})
-		}
-	}
 	toggleModal() {
 		this.setState({
 			modal: !this.state.modal
@@ -55,20 +42,28 @@ class App extends Component {
 		});
 	}
 
+
+	onSubmit = (fields) => {
+		this.setState({ fields })
+		console.log('app component', fields)
+	}
+
 	render() {
 		return (
 
 			<div className='App'>
-			<Navigation modal={this.state.modal}
-			isOpen={this.state.isOpen}
-			handleSubmit={this.handleSubmit.bind(this)}
-			handleChange={this.handleChange.bind(this)}
-			toggle={this.toggle.bind(this)}
-			toggleModal={this.toggleModal.bind(this)}/>
-			<DataTable formData={this.state.name}
-			formValid={this.state.formValid}/>
+				<Navigation onSubmit={fields => this.onSubmit(fields)}
+					modal={this.state.modal}
+					isOpen={this.state.isOpen}
+					handleChange={this.handleChange.bind(this)}
+					toggle={this.toggle.bind(this)}
+					toggleModal={this.toggleModal.bind(this)}/>
+				<DataTable
+					fields={this.onSubmit.bind(this)}
+					formValid={this.state.formValid}/>
+				<p> {this.state.fields.name} </p>
 			</div>
-			);
+		);
 	}
 }
 
